@@ -2,6 +2,8 @@
 
 Create a (flask) web server that can be used to manage docker containers.
 
+The communication with the webserver is done using HTTP requests with JSON payloads
+
 The web server should be able to:
 
 - List containers
@@ -61,3 +63,4 @@ HTTP response:
 
 - Webserver authentication using JWT / AuthToken
 - SSH Tunneling
+- SSL / TLS
