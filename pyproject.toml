@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "docker-http"
+version = "0.1.0"
+description = ""
+authors = ["fm-labs <flowmotionlabs@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
