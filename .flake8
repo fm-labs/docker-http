@@ -1,0 +1,26 @@
+[flake8]
+# Flake8 configuration
+# https://flake8.pycqa.org/en/latest/user/options.html#options-list
+
+# W503: Line break occurred before a binary operator
+# E127: continuation line over-indented for visual indent
+
+ignore = D203,W503,E127
+exclude =
+    .git,
+    .github,
+    __pycache__,
+    artifacts,
+    build,
+    data,
+    docs,
+    dist,
+    run,
+    static,
+    templates,
+    tmp,
+    venv
+
+max-complexity = 10
+max-line-length = 127
+statistics = True

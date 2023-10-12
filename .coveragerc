@@ -1,0 +1,55 @@
+
+[run]
+branch = True
+omit =
+    */.idea/*
+    */.local/*
+    */.bak/*
+    */.git/*
+    */.github/*
+    */migrations/*
+    */__init__.py
+    data/*
+    venv/*
+    manage.py
+
+data_file = artifacts/coverage.sqlite
+
+[report]
+# Regexes for lines to exclude from consideration
+exclude_lines =
+    # Have to re-enable the standard pragma
+    pragma: no cover
+
+    # Don't complain about missing debug-only code:
+    def __repr__
+    if self\.debug
+
+    # Don't complain if tests don't hit defensive assertion code:
+    raise AssertionError
+    raise NotImplementedError
+
+    # Don't complain if non-runnable code isn't run:
+    if 0:
+    if __name__ == .__main__.:
+
+# Ignore runtime errors
+ignore_errors = True
+
+# Add column with lines of missing tests
+#show_missing = True
+
+# Do not list files with 100% coverage
+#skip_covered = True
+
+# Fail below given coverage percentage
+#fail_under = 90
+
+[xml]
+output = artifacts/coverage.xml
+
+[json]
+output = artifacts/coverage.json
+
+[html]
+directory = artifacts/coverage_html
