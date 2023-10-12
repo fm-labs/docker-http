@@ -9,4 +9,8 @@ A docker mgmt http server
 ```bash
 poetry install
 poetry run python -m docker_http
+// or 
+// python ./docker-http.py
 ```
+
+
