@@ -1,7 +1,7 @@
 import sys
 sys.path.append("./src")
 
-from dockerhttp.server.app import app
+from src.dockerhttp.server.app import app
 
 if __name__ == '__main__':
     port = 5000

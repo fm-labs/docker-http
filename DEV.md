@@ -6,7 +6,7 @@ The communication with the webserver is done using HTTP requests with JSON paylo
 
 The web server should be able to:
 
-- List containers
+- List containers 
 - Start containers
 - Stop containers
 - Restart containers
