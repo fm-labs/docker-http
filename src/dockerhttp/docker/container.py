@@ -97,9 +97,12 @@ class DKClient:
         :return: Dictionary [id, name, status]
 
         """
-        for container in self.docker.containers.list():
+        all = self.docker.containers.list(all=True)
+        list = []
+        for container in all:
             container_image = str(container.attrs['Config']['Image']).replace('docker/', '')
-            return {'id': container.id, 'name': container.name, 'image': container_image, 'status': container.status}
+            list.append({'id': container.id, 'name': container.name, 'image': container_image, 'status': container.status})
+        return list
 
 
     # RESTARTING CONTAINER
@@ -124,7 +127,10 @@ class DKClient:
         :return: Dictionary [id, name, status]
 
         """
-        for container in self.docker.containers.list():
+        all = self.docker.containers.list()
+        list = []
+        for container in all:
             container.restart()
             container_image = str(container.attrs['Config']['Image']).replace('docker/', '')
-            return {'id': container.id, 'name': container.name, 'image': container_image, 'status': container.status}
+            list.append({'id': container.id, 'name': container.name, 'image': container_image, 'status': container.status})
+        return list
