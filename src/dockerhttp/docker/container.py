@@ -130,7 +130,7 @@ class DKClient:
         :return: Dictionary [id, name, status]
 
         """
-        all = self.docker.containers.list()
+        all = self.docker.containers.list(filters={'status':'running'})
         list = []
         for container in all:
             container.restart()
