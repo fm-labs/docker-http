@@ -71,8 +71,11 @@ class DKClient:
         :return: Dictionary [id, tags, labels]
 
         """
-        for image in self.docker.images.list():
-            return {'id': image.id, 'tags': str(image.tags).replace('docker/', ''), 'labels': image.labels}
+        all = self.docker.images.list(all=True)
+        list = []
+        for image in all:
+            list.append({'id': image.id, 'tags': str(image.tags).replace('docker/', ''), 'labels': image.labels})
+        return list
 
 
     # GET CONTAINER
