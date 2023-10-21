@@ -29,6 +29,12 @@ def stopContainer(key):
     return jsonify(dk.stopContainer(key))
 
 
+# REMOVE CONTAINER
+@app.route('/container/remove/<string:key>')
+def removeContainer(key):
+    return jsonify(dk.removeContainer(key))
+
+
 # GET IMAGES
 @app.route('/images')
 def getImages():

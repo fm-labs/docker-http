@@ -1,6 +1,7 @@
 # IMPORTS
 import docker
 
+
 # DOCKER CLIENT CLASS
 class DKClient:
     """
@@ -16,6 +17,8 @@ class DKClient:
     -------
     startContainer(key)
         start container from docker
+    removeContainer(key)
+        remove container from docker
     stopContainer(key)
         stop container from docker
     getImages()
@@ -26,6 +29,8 @@ class DKClient:
         restart container from docker
     restartAll()
         restart all containers from docker
+    existContainer(key)
+        return true if container exist else false
 
 
     """
@@ -39,13 +44,48 @@ class DKClient:
         Start Container from Docker
 
         :param key: id from Container on Docker
-        :return: Dictionary [id, name, status]
+        :return: Dictionary [id, name, image, status]
 
         """
+
+
+        if not self.existContainer(key):
+            return
+
+
         container = self.docker.containers.get(key)
         container.start()
         container_image = str(container.attrs['Config']['Image']).replace('docker/', '')
         return {'id': container.id, 'name': container.name, 'image': container_image, 'status': container.status}
+
+
+    # REMOVE CONTAINER
+    def removeContainer(self, key):
+        """
+        Remove Container from Docker
+
+        :param key: id from Container on Docker
+        :return: Dictionary [id, name, image, status]
+        """
+
+
+        if not self.existContainer(key):
+            return
+
+
+        all_containers = self.docker.containers.list()
+        return_list = []
+
+
+        target_container = self.docker.containers.get(key)
+        target_container.stop()
+        target_container.remove()
+
+
+        for container in all_containers:
+            container_image = str(container.attrs['Config']['Image']).replace('docker/', '')
+            return_list.append({'id': container.id, 'name': container.name, 'image': container_image, 'status': container.status})
+        return return_list
 
 
     # STOP CONTAINER
@@ -54,9 +94,15 @@ class DKClient:
         Stop Container from Docker
 
         :param key: id from Container on Docker
-        :return: Dictionary [id, name, status]
+        :return: Dictionary [id, name, image, status]
 
         """
+
+
+        if not self.existContainer(key):
+            return
+
+
         container = self.docker.containers.get(key)
         container.stop()
         container_image = str(container.attrs['Config']['Image']).replace('docker/', '')
@@ -71,11 +117,11 @@ class DKClient:
         :return: Dictionary [id, tags, labels]
 
         """
-        all = self.docker.images.list(all=True)
-        list = []
-        for image in all:
-            list.append({'id': image.id, 'tags': str(image.tags).replace('docker/', ''), 'labels': image.labels})
-        return list
+        all_containers = self.docker.images.list(all=True)
+        return_list = []
+        for image in all_containers:
+            return_list.append({'id': image.id, 'tags': str(image.tags).replace('docker/', ''), 'labels': image.labels})
+        return return_list
 
 
     # GET CONTAINER
@@ -84,9 +130,15 @@ class DKClient:
         Get Container from Docker
 
         :param key: id from Container on Docker
-        :return: Dictionary [id, name, status]
+        :return: Dictionary [id, name, image, status]
 
         """
+
+
+        if not self.existContainer(key):
+            return
+
+
         container = self.docker.containers.get(key)
         container_image = str(container.attrs['Config']['Image']).replace('docker/', '')
         return {'id': container.id, 'name': container.name, 'image': container_image, 'status': container.status}
@@ -97,15 +149,15 @@ class DKClient:
         """
         Get All Containers from Docker
 
-        :return: Dictionary [id, name, status]
+        :return: Dictionary [id, name, image, status]
 
         """
-        all = self.docker.containers.list(all=True)
-        list = []
-        for container in all:
+        all_containers = self.docker.containers.list(all=True)
+        return_list = []
+        for container in all_containers:
             container_image = str(container.attrs['Config']['Image']).replace('docker/', '')
-            list.append({'id': container.id, 'name': container.name, 'image': container_image, 'status': container.status})
-        return list
+            return_list.append({'id': container.id, 'name': container.name, 'image': container_image, 'status': container.status})
+        return return_list
 
 
     # RESTARTING CONTAINER
@@ -114,9 +166,15 @@ class DKClient:
         Restart Container from Docker
 
         :param key: id from Container on Docker
-        :return: Dictionary [id, name, status]
+        :return: Dictionary [id, name, image, status]
 
         """
+
+
+        if not self.existContainer(key):
+            return
+
+
         container = self.docker.containers.get(key)
         container_image = str(container.attrs['Config']['Image']).replace('docker/', '')
         return {'id': container.id, 'name': container.name, 'image': container_image, 'status': container.status}
@@ -127,13 +185,17 @@ class DKClient:
         """
         Restart All Containers from Docker
 
-        :return: Dictionary [id, name, status]
+        :return: Dictionary [id, name, image, status]
 
         """
-        all = self.docker.containers.list(filters={'status':'running'})
-        list = []
-        for container in all:
+        all_containers = self.docker.containers.list(filters={'status':'running'})
+        return_list = []
+        for container in all_containers:
             container.restart()
             container_image = str(container.attrs['Config']['Image']).replace('docker/', '')
             list.append({'id': container.id, 'name': container.name, 'image': container_image, 'status': container.status})
-        return list
+        return return_list
+
+
+    def existContainer(self, key):
+        return True if self.docker.containers.get(key) else False
