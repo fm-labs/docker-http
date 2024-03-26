@@ -1,10 +1,15 @@
+import os
+
 from flask import Flask, jsonify
 from flask_cors import CORS
 
 from dockerhttp.docker.client import DockerMgmtClient
 
 # CLASSES
-app, dk = Flask(__name__), DockerMgmtClient()
+docker_host = os.getenv("DOCKER_HOST", "unix:///var/run/docker.sock")
+dk = DockerMgmtClient(docker_host)
+
+app = Flask(__name__)
 CORS(app)
 
 
