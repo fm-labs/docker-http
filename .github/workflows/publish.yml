@@ -24,13 +24,14 @@ jobs:
 
 
     - name: Checkout repo with submodules
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
 
     - name: Build, tag, and push image to Docker Hub
       id: build-image
       env:
-        IMAGE_TAG: ${{ github.ref_type }}-${{ github.ref_name }}
+        #IMAGE_TAG: ${{ github.ref_type }}-${{ github.ref_name }}
+        IMAGE_TAG: ${{ github.ref_name }}
       run: |
         docker build -t $REPO_NAME:$IMAGE_TAG .
         docker push $REPO_NAME:$IMAGE_TAG
