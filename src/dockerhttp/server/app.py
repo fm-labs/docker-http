@@ -1,10 +1,10 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-from src.dockerhttp.docker.container import DKClient
 
+from dockerhttp.docker.client import DockerMgmtClient
 
 # CLASSES
-app, dk = Flask(__name__), DKClient()
+app, dk = Flask(__name__), DockerMgmtClient()
 CORS(app)
 
 
@@ -17,49 +17,49 @@ def index():
     return jsonify(data)
 
 
+# LIST IMAGES
+@app.route('/images')
+def list_images():
+    return jsonify(dk.list_images())
+
+
 # START CONTAINER
 @app.route('/container/start/<string:key>')
-def startContainer(key):
-    return jsonify(dk.startContainer(key))
+def start_container(key):
+    return jsonify(dk.start_container(key))
 
 
 # STOP CONTAINER
 @app.route('/container/stop/<string:key>')
-def stopContainer(key):
-    return jsonify(dk.stopContainer(key))
+def stop_container(key):
+    return jsonify(dk.stop_container(key))
 
 
 # REMOVE CONTAINER
 @app.route('/container/remove/<string:key>')
-def removeContainer(key):
-    return jsonify(dk.removeContainer(key))
-
-
-# GET IMAGES
-@app.route('/images')
-def getImages():
-    return jsonify(dk.getImages())
+def remove_container(key):
+    return jsonify(dk.remove_container(key))
 
 
 # LIST ALL CONTAINERS
 @app.route('/containers')
-def containers():
-    return jsonify(dk.getContainers())
+def list_containers():
+    return jsonify(dk.list_containers())
 
 
 # GET CONTAINER
 @app.route('/container/<string:key>')
-def getContainer(key):
-    return jsonify(dk.getContainer(key))
+def describe_container(key):
+    return jsonify(dk.get_container(key))
 
 
 # RESTARTING CONTAINER
 @app.route('/container/restart/<string:key>')
-def restartContainer(key):
-    return jsonify(dk.restartContainer(key))
+def restart_container(key):
+    return jsonify(dk.restart_container(key))
 
 
 # RESTARTING ALL CONTAINERS
 @app.route('/containers/restart')
-def restartAll():
-    return jsonify(dk.restartAll())
+def restart_all_containers():
+    return jsonify(dk.restart_all_containers())
