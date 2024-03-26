@@ -37,7 +37,7 @@ jobs:
         docker build -t $REGISTRY/$REPO_NAME:$IMAGE_TAG .
         docker push $REGISTRY/$REPO_NAME:$IMAGE_TAG
         
-        docker tag $REGISTRY/$REPO_NAME:$IMAGE_TAG $REPO_NAME:latest
+        docker tag $REGISTRY/$REPO_NAME:$IMAGE_TAG $REGISTRY/$REPO_NAME:latest
         docker push $REGISTRY/$REPO_NAME:latest
         
         echo "image=$REGISTRY/$REPO_NAME:$IMAGE_TAG" >> $GITHUB_OUTPUT
